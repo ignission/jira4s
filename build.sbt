@@ -1,5 +1,9 @@
 name := "jira4s"
 
-version := "0.1"
+lazy val commonSettings = Seq(
+  version := "0.1.0",
+  scalaVersion := "2.12.4"
+)
 
-scalaVersion := "2.12.4"
+lazy val core = (project in file("core"))
+  .settings(commonSettings)
