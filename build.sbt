@@ -7,3 +7,6 @@ lazy val commonSettings = Seq(
 
 lazy val core = (project in file("core"))
   .settings(commonSettings)
+
+lazy val akka = (project in file("akka"))
+  .settings(commonSettings)
