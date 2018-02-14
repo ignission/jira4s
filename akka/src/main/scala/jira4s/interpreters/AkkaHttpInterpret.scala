@@ -16,7 +16,7 @@ import cats.implicits._
 import fs2.interop.reactivestreams._
 import jira4s.datas.{ApiErrors, Basic}
 import jira4s.dsl.HttpADT.{ByteStream, Bytes, Response}
-import jira4s.dsl.{HttpQuery, JiraHttpInterpret, RequestError, ServerDown}
+import jira4s.dsl.{HttpQuery, JiraHttpInterpret, RequestError, ServerDown, NotFound}
 import jira4s.dsl.JiraHttpOp.HttpF
 import spray.json._
 
@@ -75,10 +75,10 @@ class AkkaHttpInterpret(implicit actorSystem: ActorSystem,
       result = {
         val status = response.status.intValue()
         if (response.status.isFailure()) {
-          if (status >= 400 && status < 500)
-            Either.left(RequestError(data.parseJson.convertTo[ApiErrors]))
-          else {
-            Either.left(ServerDown)
+          status match {
+            case 404 => Either.left(NotFound)
+            case code if code >= 400 && code < 500 => Either.left(RequestError(data.parseJson.convertTo[ApiErrors]))
+            case _ => Either.left(ServerDown)
           }
         } else {
           Either.right(data)
