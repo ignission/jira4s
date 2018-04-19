@@ -15,22 +15,21 @@ import cats.effect.IO
 import cats.implicits._
 import fs2.interop.reactivestreams._
 import jira4s.datas.{ApiErrors, Basic}
-import jira4s.dsl.HttpADT.{ByteStream, Bytes, Response}
-import jira4s.dsl.{HttpQuery, JiraHttpInterpret, RequestError, ServerDown}
-import jira4s.dsl.JiraHttpOp.HttpF
+import jira4s.dsl.HttpDSL.{ByteStream, Bytes, HttpProgram, Response}
+import jira4s.dsl.{HttpQuery, RequestError, ServerDown}
 import spray.json._
 
 import scala.collection.immutable.Seq
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 
-class AkkaInterpret(implicit actorSystem: ActorSystem,
+class AkkaInterpreter(implicit actorSystem: ActorSystem,
                     mat: Materializer,
-                    exc: ExecutionContext) extends JiraHttpInterpret[Future] {
+                    exc: ExecutionContext) extends JiraHttpInterpreter[Future] {
 
   import jira4s.formatters.SprayJsonFormats._
 
-  implicit val monad = implicitly[Monad[Future]]
+  implicit val monad: Monad[Future] = implicitly[Monad[Future]]
 
   private val http = Http()
   private val timeout = 10.seconds
@@ -176,7 +175,7 @@ class AkkaInterpret(implicit actorSystem: ActorSystem,
   override def pure[A](a: A): Future[A] =
     Future.successful(a)
 
-  override def parallel[A](prgs: scala.Seq[HttpF[A]]): Future[scala.Seq[A]] =
+  override def parallel[A](prgs: scala.Seq[HttpProgram[A]]): Future[scala.Seq[A]] =
     Future.sequence(
       prgs.map(_.foldMap(this))
     ).map { result =>
