@@ -23,9 +23,9 @@ import scala.collection.immutable.Seq
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 
-class AkkaInterpreter(implicit actorSystem: ActorSystem,
-                    mat: Materializer,
-                    exc: ExecutionContext) extends JiraHttpInterpreter[Future] {
+class AkkaHttpInterpreter(implicit actorSystem: ActorSystem,
+                          mat: Materializer,
+                          exc: ExecutionContext) extends JiraHttpInterpreter[Future] {
 
   import jira4s.formatters.SprayJsonFormats._
 
