@@ -1,6 +1,6 @@
-package jira4s.formatters
+package tech.ignission.jira4s.formatters
 
-import jira4s.datas.{ApiErrors, Key, User}
+import tech.ignission.jira4s.datas.{ApiErrors, Key, User}
 import spray.json._
 
 object SprayJsonFormats extends DefaultJsonProtocol {

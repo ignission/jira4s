@@ -1,4 +1,4 @@
-package jira4s.datas
+package tech.ignission.jira4s.datas
 
 case class User(
   key: Option[Key[User]],
