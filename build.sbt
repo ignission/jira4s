@@ -1,7 +1,9 @@
 name := "jira4s"
 
+sonatypeProfileName := "tech.ignission"
+
 lazy val commonSettings = Seq(
-  version := "0.1.0",
+  version := "0.3.0-SNAPSHOT",
   scalaVersion := "2.13.1",
   organization := "tech.ignission"
 )
@@ -16,7 +18,6 @@ lazy val noPublishSettings = Seq(
 isSnapshot := version.value endsWith "SNAPSHOT"
 
 lazy val publishPackages = Seq(
-  useGpg := true,
   publishMavenStyle := true,
   publishArtifact in Test := false,
   publishTo := {
