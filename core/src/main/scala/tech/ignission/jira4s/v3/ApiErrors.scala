@@ -1,4 +1,4 @@
-package tech.ignission.jira4s.datas
+package tech.ignission.jira4s.v3
 
 // https://developer.atlassian.com/cloud/jira/platform/rest/#error-responses
 
