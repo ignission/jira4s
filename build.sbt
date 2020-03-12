@@ -32,9 +32,9 @@ lazy val publishPackages = Seq(
 //  publishConfiguration := publishConfiguration.value.withOverwrite(true),
 //  publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
-  homepage := Some(url("https://github.com/shomatan")),
+  homepage := Some(url("https://github.com/ignission")),
   licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
-  scmInfo := Some(ScmInfo(url("https://github.com/shomatan/jira4s"), "scm:git:git@github.com/shomatan/jira4s.git")),
+  scmInfo := Some(ScmInfo(url("https://github.com/ignission/jira4s"), "scm:git:git@github.com/ignission/jira4s.git")),
   developers := List(
     Developer(
       id    = "shomatan",
