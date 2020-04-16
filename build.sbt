@@ -45,14 +45,14 @@ lazy val publishPackages = Seq(
   )
 )
 
-lazy val core = (project in file("core"))
+lazy val core = (project in file("jira4s-core"))
   .settings(commonSettings)
   .settings(
     name := "jira4s-core",
     publishPackages
   )
 
-lazy val akka = (project in file("akka"))
+lazy val akka = (project in file("jira4s-akka"))
   .settings(commonSettings)
   .settings(
     name := "jira4s-akka",
