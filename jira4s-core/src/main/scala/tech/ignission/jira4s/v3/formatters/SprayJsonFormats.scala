@@ -53,7 +53,21 @@ object SprayJsonFormats extends DefaultJsonProtocol {
       }
   }
 
+  // implicit val projectIdFormat = new IdFormat[Project]
+  // implicit val projectKeyFormat = new KeyFormat[Project]
+
   // Version
+  implicit object VersionIdFormat extends RootJsonFormat[Id[Version]] {
+    override def read(json: JsValue): Id[Version] =
+      json match {
+        case JsString(value) =>
+          Id[Version](value.toDouble)
+        case input =>
+          deserializationError(s"Expected a number of string version id. Input: $input")
+      }
+    override def write(obj: Id[Version]): JsValue =
+      JsString(obj.value.toString)
+  }
   implicit val versionFormat: JsonFormat[Version] = jsonFormat6(Version)
 
   // User

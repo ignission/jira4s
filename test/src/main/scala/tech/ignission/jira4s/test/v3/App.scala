@@ -5,6 +5,7 @@ import akka.stream.SystemMaterializer
 import tech.ignission.jira4s.interpreters.JiraHttpDSLOnAkka
 import tech.ignission.jira4s.v3.Basic
 import tech.ignission.jira4s.v3.apis.AllAPI
+import tech.ignission.jira4s.v3.datas.{IdOrKeyParam, Key, Project}
 import tech.ignission.jira4s.v3.dsl.syntax._
 
 import scala.util.{Failure, Success}
@@ -27,11 +28,18 @@ object App {
 
       val task = for {
         users <- allAPI.userAPI.all.handleError
-      } yield users
+        versions <- allAPI.versionAPI.all(IdOrKeyParam.projectKey(Key[Project]("TEST"))).handleError
+      } yield (users, versions)
 
       task.value.runToFuture.onComplete {
-        case Success(data) =>
-          println(data)
+        case Success(result) =>
+          result match {
+            case Right((users, versions)) =>
+              println(users)
+              println(versions)
+            case Left(error) =>
+              println(error)
+          }
           akkaHttpDSL.terminate().runSyncUnsafe()
           system.terminate()
         case Failure(ex) =>

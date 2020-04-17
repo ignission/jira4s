@@ -1,10 +1,10 @@
 package tech.ignission.jira4s.v3.datas
 
 case class Version(
-  id: Double,
+  id: Id[Version],
   name: String,
-  description: String,
+  description: Option[String],
   archived: Boolean,
   released: Boolean,
-  releaseDate: CalendarDate
+  releaseDate: Option[CalendarDate] // TODO: implement
 )
