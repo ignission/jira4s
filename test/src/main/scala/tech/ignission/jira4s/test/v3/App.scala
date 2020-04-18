@@ -27,15 +27,17 @@ object App {
       val allAPI = new AllAPI(apiUrl, credential)(akkaHttpDSL)
 
       val task = for {
+        components <- allAPI.componentAPI.all(IdOrKeyParam.projectKey(Key[Project]("TEST"))).handleError
         users <- allAPI.userAPI.all.handleError
         versions <- allAPI.versionAPI.all(IdOrKeyParam.projectKey(Key[Project]("TEST"))).handleError
         version <- allAPI.versionAPI.get(IdParam.versionId(versions.head.id)).handleError
-      } yield (users, versions, version)
+      } yield (components, users, versions, version)
 
       task.value.runToFuture.onComplete {
         case Success(result) =>
           result match {
-            case Right((users, versions, version)) =>
+            case Right((components, users, versions, version)) =>
+              println(components)
               println(users)
               println(versions)
               println(version)
