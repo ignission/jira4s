@@ -8,12 +8,12 @@ import tech.ignission.jira4s.v3.dsl.{HttpDSL, HttpQuery}
 class VersionAPI[F[_]](baseUrl: String, credentials: Credentials)(implicit httpDSL: HttpDSL[F]) {
   import tech.ignission.jira4s.v3.formatters.SprayJsonFormats._
 
-  private val resource = s"/rest/api/3/project"
+  private val resource = s"/rest/api/3"
 
   def all(idOrKeyParam: IdOrKeyParam[Project]): F[Response[Seq[Version]]] =
     httpDSL.get[Seq[Version]](
       HttpQuery(
-        path = s"$resource/$idOrKeyParam/versions",
+        path = s"$resource/project/$idOrKeyParam/versions",
         credentials = credentials,
         baseUrl = baseUrl
       )
@@ -22,7 +22,7 @@ class VersionAPI[F[_]](baseUrl: String, credentials: Credentials)(implicit httpD
   def get(id: Id[Version]): F[Response[Version]] =
     httpDSL.get[Version](
       HttpQuery(
-        path = s"/rest/api/3/version/$id",
+        path = s"$resource/version/$id",
         credentials = credentials,
         baseUrl = baseUrl
       )
