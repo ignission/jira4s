@@ -1,7 +1,7 @@
 package tech.ignission.jira4s.v3.apis
 
 import tech.ignission.jira4s.v3.Credentials
-import tech.ignission.jira4s.v3.datas.{IdOrKeyParam, Project, Version}
+import tech.ignission.jira4s.v3.datas.{Id, IdOrKeyParam, Project, Version}
 import tech.ignission.jira4s.v3.dsl.BacklogHttpDsl.Response
 import tech.ignission.jira4s.v3.dsl.{HttpDSL, HttpQuery}
 
@@ -14,6 +14,15 @@ class VersionAPI[F[_]](baseUrl: String, credentials: Credentials)(implicit httpD
     httpDSL.get[Seq[Version]](
       HttpQuery(
         path = s"$resource/$idOrKeyParam/versions",
+        credentials = credentials,
+        baseUrl = baseUrl
+      )
+    )
+
+  def get(id: Id[Version]): F[Response[Version]] =
+    httpDSL.get[Version](
+      HttpQuery(
+        path = s"/rest/api/3/version/$id",
         credentials = credentials,
         baseUrl = baseUrl
       )
