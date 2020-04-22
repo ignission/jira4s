@@ -21,6 +21,8 @@ object IdOrKeyParam {
 }
 
 object IdParam {
+  def componentId(id: Id[Component]): IdParam[Component] =
+    IdParam[Component](id)
   def versionId(id: Id[Version]): IdParam[Version] = 
     IdParam[Version](id)
 }

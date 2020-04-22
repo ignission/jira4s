@@ -5,7 +5,7 @@ import akka.stream.SystemMaterializer
 import tech.ignission.jira4s.interpreters.JiraHttpDSLOnAkka
 import tech.ignission.jira4s.v3.Basic
 import tech.ignission.jira4s.v3.apis.AllAPI
-import tech.ignission.jira4s.v3.datas.{IdOrKeyParam, IdParam, Key, Project, Version}
+import tech.ignission.jira4s.v3.datas.{IdOrKeyParam, IdParam, Key, Project}
 import tech.ignission.jira4s.v3.dsl.syntax._
 
 import scala.util.{Failure, Success}
@@ -28,16 +28,18 @@ object App {
 
       val task = for {
         components <- allAPI.componentAPI.all(IdOrKeyParam.projectKey(Key[Project]("TEST"))).handleError
+        component <- allAPI.componentAPI.get(IdParam.componentId(components.head.id)).handleError
         users <- allAPI.userAPI.all.handleError
         versions <- allAPI.versionAPI.all(IdOrKeyParam.projectKey(Key[Project]("TEST"))).handleError
         version <- allAPI.versionAPI.get(IdParam.versionId(versions.head.id)).handleError
-      } yield (components, users, versions, version)
+      } yield (components, component, users, versions, version)
 
       task.value.runToFuture.onComplete {
         case Success(result) =>
           result match {
-            case Right((components, users, versions, version)) =>
+            case Right((components, component, users, versions, version)) =>
               println(components)
+              println(component)
               println(users)
               println(versions)
               println(version)

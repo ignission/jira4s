@@ -1,7 +1,7 @@
 package tech.ignission.jira4s.v3.apis
 
 import tech.ignission.jira4s.v3.Credentials
-import tech.ignission.jira4s.v3.datas.{Id, IdOrKeyParam, Project, Version}
+import tech.ignission.jira4s.v3.datas.{IdOrKeyParam, Project, Version}
 import tech.ignission.jira4s.v3.dsl.BacklogHttpDsl.Response
 import tech.ignission.jira4s.v3.dsl.{HttpDSL, HttpQuery}
 import tech.ignission.jira4s.v3.datas.IdParam
