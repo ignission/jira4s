@@ -22,9 +22,9 @@ class ComponentAPI[F[_]](baseUrl: String, credentials: Credentials)(implicit htt
   def get(id: IdParam[Component]): F[Response[Component]] =
     httpDSL.get[Component](
       HttpQuery(
-      path = s"$resource/component/${id.toString}",
-      credentials = credentials,
-      baseUrl = baseUrl
+        path = s"$resource/component/${id.toString}",
+        credentials = credentials,
+        baseUrl = baseUrl
       )
     )
 }
